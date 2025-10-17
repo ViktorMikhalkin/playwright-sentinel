@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "lib": ["ES2023", "DOM"],
+    "types": ["node", "playwright"],
+    "strict": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "useUnknownInCatchVariables": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    // Aliases if needed
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "tests/*": ["tests/*"]
+    }
+  },
+  "include": [
+    "playwright.config.ts",
+    "src/**/*.ts",
+    "tests/**/*.ts"
+  ],
+  "exclude": ["node_modules", "dist", "build", "playwright-report", "coverage"]
+}

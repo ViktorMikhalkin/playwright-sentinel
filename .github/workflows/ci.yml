@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  lint-and-typecheck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install deps (CI, clean)
+        run: npm ci
+
+      # ---- TypeScript strict type-check
+      - name: TypeScript typecheck
+        run: npm run typecheck
+
+      # ---- ESLint strict on src
+      - name: ESLint (strict on src)
+        run: npm run lint:src
+
+      # ---- ESLint relaxed on tests
+      - name: ESLint (relaxed on tests)
+        run: npm run lint:tests
+
+  tests:
+    runs-on: ubuntu-latest
+    needs: lint-and-typecheck
+    env:
+      # Use system Chrome-like channel in CI? For GitHub runners, prefer bundled browsers:
+      # PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      # PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS: '1'
+      # If you rely on system Chrome locally, in CI it's safer to install Playwright browsers:
+      # here we keep defaults (download browsers).
+      CI: '1'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests (headless)
+        run: npx playwright test --reporter=line
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report

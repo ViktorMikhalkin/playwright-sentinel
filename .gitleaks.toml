@@ -1,0 +1,16 @@
+title = "gitleaks config"
+
+[allowlist]
+paths = [
+    '''node_modules''',
+    '''dist''',
+    '''build''',
+    '''coverage''',
+    '''playwright-report'''
+]
+
+# allow some known dummy test tokens to reduce noise
+regexes = [
+    '''(?i)\bdummy(api|secret|token)_?(key|id)?\b''',
+    '''(?i)\bexample(_?key|_?token)\b'''
+]

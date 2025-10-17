@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "→ Secret scan + ESLint/Prettier (staged files)"
+npx lint-staged
