@@ -26,13 +26,9 @@ jobs:
       - name: TypeScript typecheck
         run: npm run typecheck
 
-      # ---- ESLint strict on src
-      - name: ESLint (strict on src)
+      # ---- ESLint strict (all files, different rules for src vs tests)
+      - name: ESLint (strict)
         run: npm run lint:strict
-
-      # ---- ESLint relaxed on tests
-      - name: ESLint (relaxed on tests)
-        run: npm run lint:tests
 
   tests:
     runs-on: ubuntu-latest
