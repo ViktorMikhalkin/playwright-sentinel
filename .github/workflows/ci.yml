@@ -28,7 +28,7 @@ jobs:
 
       # ---- ESLint strict on src
       - name: ESLint (strict on src)
-        run: npm run lint:src
+        run: npm run lint:strict
 
       # ---- ESLint relaxed on tests
       - name: ESLint (relaxed on tests)
