@@ -3,6 +3,7 @@ import tseslint from 'typescript-eslint';
 import playwright from 'eslint-plugin-playwright';
 import prettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
+import globals from 'globals';  // ADD THIS IMPORT
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
 
@@ -45,6 +46,9 @@ export default [
                 ecmaVersion: 'latest',
                 sourceType: 'module',
             },
+            globals: {
+                ...globals.node,  // ADD THIS - provides process, __dirname, etc.
+            },
         },
 
         plugins: {
@@ -58,7 +62,7 @@ export default [
             ...tseslint.configs.recommendedTypeChecked.rules,
             ...tseslint.configs.stylisticTypeChecked.rules,
 
-            // --- “Senior” stricter rules (type-safety & clarity)
+            // --- "Senior" stricter rules (type-safety & clarity)
             '@typescript-eslint/explicit-function-return-type': ['error', {
                 allowExpressions: false,
                 allowTypedFunctionExpressions: true,
@@ -76,7 +80,11 @@ export default [
             '@typescript-eslint/promise-function-async': ['error', { allowAny: false }],
             '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports', fixStyle: 'inline-type-imports' }],
             '@typescript-eslint/no-unnecessary-type-assertion': 'error',
-            '@typescript-eslint/prefer-nullish-coalescing': ['error', { ignorePrimitives: false }],
+            '@typescript-eslint/prefer-nullish-coalescing': ['error', {
+                ignoreConditionalTests: false,
+                ignoreTernaryTests: false,
+                ignoreMixedLogicalExpressions: false,
+            }],
             '@typescript-eslint/prefer-readonly': 'error',
             '@typescript-eslint/prefer-readonly-parameter-types': ['warn', {
                 checkParameterProperties: true,
